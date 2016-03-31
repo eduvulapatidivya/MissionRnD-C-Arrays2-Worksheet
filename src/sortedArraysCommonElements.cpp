@@ -17,13 +17,96 @@ NOTES:
 */
 
 #include <iostream>
+#include<malloc.h>
 
 struct transaction {
 	int amount;
 	char date[11];
 	char description[20];
 };
+int* strtodate1(char *a)
+{
+	int sum = 0, i = 0, j = 0, k = 0;
+	int* c = (int*)malloc(sizeof(int) * 3);
+
+	for (i = 0; a[i] != '\0'; i++)
+	{
+
+		if (a[i] != 45)
+		{
+
+			sum = sum * 10 + (a[i] - 48);
+
+		}
+		else
+
+		{
+
+			c[j] = sum;
+
+			j++;
+			sum = 0;
+
+		}
+
+
+	}
+
+	c[j] = sum;
+
+	return c;
+}
+int check1(char* date1, char*date2)
+{
+	int* d1 = (int*)malloc(sizeof(int) * 3);
+	int* d2 = (int*)malloc(sizeof(int) * 3);
+	d1 = strtodate1(date1);
+	d2 = strtodate1(date2);
+	if (d1[2] == d2[2])
+	{
+		if (d1[1] == d2[1])
+		{
+			if (d1[0] == d2[0])
+				return 1;
+			
+		}
+		
+
+	}
+	
+	else
+		return 0;
+
+}
 
 struct transaction * sortedArraysCommonElements(struct transaction *A, int ALen, struct transaction *B, int BLen) {
+	int i, j, k = 0, l = 0, flag = 0;
+	struct transaction *C;
+	if (A && (ALen > 0) && (B) && (BLen > 0))
+	{
+		if (ALen < BLen)
+		{
+			C = (struct transaction *)malloc(sizeof(struct transaction *)*ALen);
+		}
+		else
+			C = (struct transaction *)malloc(sizeof(struct transaction *)*BLen);
+
+		for (i = 0; i < ALen; i++)
+		{
+			for (j = 0; j < BLen; j++)
+			{
+				k = check1(A[i].date, B[j].date);
+				if (k == 1){
+					flag = 1;
+					C[l] = A[i];
+					l++;
+				}
+			}
+		}
+		if (flag == 0)
+			return NULL;
+		return C;
+	}
+	else
 	return NULL;
 }
